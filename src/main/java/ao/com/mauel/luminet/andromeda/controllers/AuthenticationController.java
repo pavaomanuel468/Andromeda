@@ -1,12 +1,16 @@
 package ao.com.mauel.luminet.andromeda.controllers;
 
+import ao.com.mauel.luminet.andromeda.exceptions.UserNotFoundException;
 import ao.com.mauel.luminet.andromeda.repository.UserRepository;
 import ao.com.mauel.luminet.andromeda.servisses.TokenService;
+import ao.com.mauel.luminet.andromeda.servisses.UserServisse;
 import ao.com.mauel.luminet.andromeda.users.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +25,9 @@ public class AuthenticationController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserServisse userServisse;
 
     @Autowired
     private UserRepository userRepository;
@@ -40,16 +47,18 @@ public class AuthenticationController {
 
     @GetMapping("/frutas")
     public List<String> frutas(){
-
         return List.of("Futa Pinha", "Abacaxi", "Tomate", "Cenoura");
     }
 
-    @PostMapping("/login")//Retorna ResponseEntity.ok()
-    public String login(@RequestBody AuthenticationDTO data) {
+   @GetMapping("/usuarios")
+   public List<User> usuarios(){
+        return List.of((User) this.userServisse.usuarios());
+   }
 
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody AuthenticationDTO data) {
         System.out.println("LOGIN DO USUÁRIO: " + data.login() + " | " + data.password());
-
-        /*try {
+        try {
             System.out.println("Entrou no login");
             var userNamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
             System.out.println(data.login() + " + " + data.password());
@@ -57,14 +66,14 @@ public class AuthenticationController {
             User user = (User) auth.getPrincipal();
             System.out.println("Autenticou com sucesso!");
             var token = tokenService.generateToken(user);
+            System.out.println("TOKEN NA CONTROLLER: " + token);
             return ResponseEntity.ok(new LoginTokenDTO(token));
-        }catch (Exception e){
-            e.printStackTrace();
-        }*/
-        return "Tudo certo";
+        }catch (AuthenticationException e){
+            throw  new UserNotFoundException();
+        }
     }
 
-    //TODO COLOCAR AQUI A ANOTAÇÃO @VALID
+    //TODO COLOCR QUI  ANOTAÇÃO @VALID
     @PostMapping("/register") //Retorna ResponseEntity
     public ResponseEntity register(@RequestBody RegisterDTO registerDTO){
 
