@@ -3,7 +3,7 @@ CREATE SCHEMA IF NOT EXISTS product
 CREATE TABLE product.users(
     id TEXT PRIMARY KEY UNIQUE NOT NULL,
     nome TEXT NOT NULL,
-    numero TEXT NOT NULL,
+    sobreNome TEXT NOT NULL,
     email TEXT NOT NULL,
     dataNascimento TEXT NOT NULL,
     genero TEXT NOT NULL,

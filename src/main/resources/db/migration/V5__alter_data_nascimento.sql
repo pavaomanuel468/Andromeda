@@ -1,0 +1,1 @@
+ALTER TABLE product.users ALTER COLUMN data_nascimento TYPE DATE USING data_nascimento::DATE
