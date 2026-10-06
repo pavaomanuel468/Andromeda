@@ -87,8 +87,6 @@ public class AuthenticationController {
         User newUser = new User(registerDTO.nome(), registerDTO.numero(), registerDTO.email(), registerDTO.dataNascimento(), registerDTO.genero(),
                 registerDTO.numero(), encryptPassword, UserRoles.USER_NORMAL.getRole());
 
-        //String encryptPassword = new BCryptPasswordEncoder().encode(registerDTO.password()); Mais vale o Spring gerenciar a dependência
-
         System.out.println("\bLogin: " + registerDTO.numero()+"\n\bPasword: "+encryptPassword+"\n\bRole: "+newUser.getRolle());
         this.userRepository.save(newUser);
 
