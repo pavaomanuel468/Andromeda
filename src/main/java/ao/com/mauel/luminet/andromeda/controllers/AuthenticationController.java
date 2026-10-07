@@ -8,16 +8,13 @@ import ao.com.mauel.luminet.andromeda.users.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")
@@ -74,6 +71,7 @@ public class AuthenticationController {
     }
 
     //TODO COLOCR QUI  ANOTAÇÃO @VALID
+
     @PostMapping("/register") //Retorna ResponseEntity
     public ResponseEntity register(@RequestBody RegisterDTO registerDTO){
 
